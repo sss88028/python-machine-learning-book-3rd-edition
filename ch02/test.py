@@ -25,7 +25,7 @@ df = pd.read_csv(s)
 import matplotlib.pyplot as plot
 import numpy as np
 
-y = df.iloc[:, 4].values
+y = df.iloc[:100, 4].values
 y = np.where(y == "Iris-setosa", -1, 1)
 
 X = df.iloc[:100, [0, 2]].values
@@ -57,14 +57,15 @@ ppn.fit(X, y)
 
 from matplotlib.colors import ListedColormap
 
-for idx, cl in enumerate(np.unique(y)):
-    print(f"index : {idx}, cl {cl}")
-    print(X[y == cl, 0])
+# for idx, cl in enumerate(np.unique(y)):
+#     print(f"index : {idx}, cl {cl}")
+#     print(X[y == cl, 0])
 
 def plot_decision_regions(X, y, classifier: Perceptron, resolution=0.02):
     markers = ("s", "x", "o", "^", "v")
     colors = ("red", "blue", "lightgreen", "gray", "cyan")
-    cmap = ListedColormap(colors[:len(np.unique(y))])
+    unique_len = len(np.unique(y))
+    cmap = ListedColormap(colors[:unique_len])
 
     x1_min = X[:, 0].min() - 1
     x1_max = X[:, 0].max() + 1
@@ -85,9 +86,9 @@ def plot_decision_regions(X, y, classifier: Perceptron, resolution=0.02):
         plt.scatter(x=X[y == cl, 0],
                     y=X[y == cl, 1],
                     alpha=0.8,
-                    c=cmap[idx],
+                    c=cmap.colors[idx],
                     marker=markers[idx],
-                    llabel=cl,
+                    label=cl,
                     edgecolors="black")
 
 
